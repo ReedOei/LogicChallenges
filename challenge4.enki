@@ -1,3 +1,5 @@
+-- Implementation of the Luhna algorithm: https://en.wikipedia.org/wiki/Luhn_algorithm
+
 separate List into L and R where
     when List = X :: (Y :: Xs) then
         separate Xs into Ls and Rs,
@@ -15,7 +17,7 @@ List in luhn form with CheckDigit if
     separate List into L and R,
     NewR = map (sum digits _) over map double over R,
     CheckDigit isa digit,
-    10 divides ((sum of L + sum of NewR) + CheckDigit).
+    10 | (sum of L + sum of NewR + CheckDigit).
 
 when [7,9,9,2,7,3,9,8,7,1] in luhn form with 3 then display "Success: Yay!".
 when [7,9,9,2,7,3,9,8,7,1] in luhn form with CheckDigit then display as text CheckDigit.

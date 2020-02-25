@@ -1,4 +1,4 @@
--- Implementation of the Luhna algorithm: https://en.wikipedia.org/wiki/Luhn_algorithm
+-- Implementation of the Luhn algorithm: https://en.wikipedia.org/wiki/Luhn_algorithm
 
 separate List into L and R where
     when List = X :: (Y :: Xs) then

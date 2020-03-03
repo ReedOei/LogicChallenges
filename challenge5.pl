@@ -59,23 +59,22 @@ is_op(-).
 insert_ops([], []).
 insert_ops([X|Xs], [_Op,X|Rest]) :- insert_ops(Xs, Rest).
 
-collapse_digits([FirstOp|Xs], [FirstOp|Res]) :-
-    collapse_digits(0, Xs, Res).
-
-collapse_digits(Cur, [], [Cur]).
-collapse_digits(Cur, [X|Xs], Rest) :-
-    integer(X), X in 0..9,
-    New #= Cur*10 + X,
-    collapse_digits(New, Xs, Rest).
-collapse_digits(Cur, [^,X|Xs], Rest) :-
-    collapse_digits(Cur, [X|Xs], Rest).
-collapse_digits(Cur, [Op,X|Xs], [Cur,Op|Rest]) :-
-    is_op(Op),
-    collapse_digits(0, [X|Xs], Rest).
-
 calculate(Xs, Res) :-
     collapse_digits(Xs, ToCalc),
     apply_operations(0, ToCalc, Res).
+
+collapse_digits([FirstOp,X|Xs], [FirstOp|Res]) :-
+    collapse_digits(X, Xs, Res).
+
+collapse_digits(Cur, [], [Cur]).
+collapse_digits(Cur, [^,X|Xs], Rest) :-
+    X in 0..9,
+    New #= Cur*10 + X,
+    collapse_digits(New, Xs, Rest).
+collapse_digits(Cur, [Op,X|Xs], [Cur,Op|Rest]) :-
+    is_op(Op),
+    X in 0..9,
+    collapse_digits(X, Xs, Rest).
 
 apply_operations(Cur, [], Cur).
 apply_operations(Cur, [+,X|Xs], Res) :-

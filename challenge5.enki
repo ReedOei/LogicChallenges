@@ -1,0 +1,14 @@
+operations are ["+", "-"].
+
+D isa digit if D >= 0, D < 10.
+
+collapseHelper Cur List is
+    when List = empty then singleton list Cur;
+    when List = X :: Xs then
+        when X isa digit then collapseHelper (Cur*10 + X) Xs;
+        when not X isa digit then Cur :: (X :: collapseHelper 0 Xs).
+
+collapse digits of List is collapseHelper 0 List.
+
+display collapse digits of [1,2,3,4,"+",5,6].
+

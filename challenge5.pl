@@ -11,7 +11,7 @@ main(_Argv) :-
 
     writeln('Solutions for 100:'),
     findall(Input, member(Input=100, Sols), Filtered),
-    display(Filtered),
+    forall(member(Sol, Filtered), (collapse_digits(Sol, Out), writeln(Out))),
 
     findall(Out, member(_=Out, Sols), NumsUnsorted),
     msort(NumsUnsorted, Nums),
@@ -22,14 +22,16 @@ main(_Argv) :-
 
     lowest_no_solution(1, Nums),
 
-    reverse(Nums, RevSols),
-    take(10, RevSols, TopSols),
+    n_largest(10, Val, member(_=Val, Sols), TopSols),
     format('Largest 10 expressable numbers: ~w~n', [TopSols]).
 
-take(N, Xs, Out) :-
-    findall(X, (between(1, N, I), nth1(I, Xs, X)), Out).
+find_max(Comp, Goal, Out) :- n_largest(1, Comp, Goal, [Out]).
+n_largest(N, Comp, Goal, Out) :-
+    findnsols(N, Comp, limit(N, order_by([desc(Comp)], Goal)), Out).
+find_min(Comp, Goal, Out) :- n_smallest(1, Comp, Goal, [Out]).
+n_smallest(N, Comp, Goal, Out) :-
+    findnsols(N, Comp, limit(N, order_by([asc(Comp)], Goal)), Out).
 
-display(Sols) :- forall(member(Sol, Sols), (collapse_digits(Sol, Out), writeln(Out))).
 
 lowest_no_solution(N, Xs) :-
     (

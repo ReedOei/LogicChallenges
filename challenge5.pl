@@ -1,8 +1,5 @@
 :- use_module(library(clpfd)).
 
-% apply_operations([_,1,_,2,_,3,_,4,_,5,_,6,_,7,_,8,_,9], X).
-% calculate([A,1,B,2,C,3,D,4,E,5,F,6,G,7,H,8,I,9], 100).
-
 :- initialization(main, main).
 
 main(_Argv) :-
@@ -31,7 +28,6 @@ n_largest(N, Comp, Goal, Out) :-
 find_min(Comp, Goal, Out) :- n_smallest(1, Comp, Goal, [Out]).
 n_smallest(N, Comp, Goal, Out) :-
     findnsols(N, Comp, limit(N, order_by([asc(Comp)], Goal)), Out).
-
 
 lowest_no_solution(N, Xs) :-
     (
